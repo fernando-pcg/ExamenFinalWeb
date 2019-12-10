@@ -1,0 +1,63 @@
+﻿@model IEnumerable<try3.Models.Visita>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Motivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreVisitante)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaVisita)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraEntrada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoraSalida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contactos.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Motivo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreVisitante)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaVisita)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraEntrada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoraSalida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contactos.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdVisita }, new { @class = "waves-effect waves-light btn" })
+            @Html.ActionLink("Details", "Details", new { id=item.IdVisita }, new { @class = "waves-effect waves-light btn" })
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdVisita }, new { @class = "waves-effect waves-light btn" })
+        </td>
+    </tr>
+}
+
+</table>

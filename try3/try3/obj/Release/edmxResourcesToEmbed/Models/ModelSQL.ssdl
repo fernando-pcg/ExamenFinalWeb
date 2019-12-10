@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamMatUIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Contactos">
+    <Key>
+      <PropertyRef Name="IdContacto" />
+    </Key>
+    <Property Name="IdContacto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ID" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="FechaCreacion" Type="date" />
+  </EntityType>
+  <EntityType Name="Visita">
+    <Key>
+      <PropertyRef Name="IdVisita" />
+    </Key>
+    <Property Name="IdVisita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Motivo" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="NombreVisitante" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="FechaVisita" Type="date" />
+    <Property Name="HoraEntrada" Type="time" Precision="2" Nullable="false" />
+    <Property Name="HoraSalida" Type="time" Precision="2" Nullable="false" />
+    <Property Name="IdContacto" Type="int" />
+  </EntityType>
+  <Association Name="fk_ContactoVisita">
+    <End Role="Contactos" Type="Self.Contactos" Multiplicity="0..1" />
+    <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contactos">
+        <PropertyRef Name="IdContacto" />
+      </Principal>
+      <Dependent Role="Visita">
+        <PropertyRef Name="IdContacto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamMatUIModelStoreContainer">
+    <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Visita" EntityType="Self.Visita" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_ContactoVisita" Association="Self.fk_ContactoVisita">
+      <End Role="Contactos" EntitySet="Contactos" />
+      <End Role="Visita" EntitySet="Visita" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

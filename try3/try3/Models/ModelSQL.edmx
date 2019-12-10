@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExamMatUIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contactos">
+          <Key>
+            <PropertyRef Name="IdContacto" />
+          </Key>
+          <Property Name="IdContacto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="FechaCreacion" Type="date" />
+        </EntityType>
+        <EntityType Name="Visita">
+          <Key>
+            <PropertyRef Name="IdVisita" />
+          </Key>
+          <Property Name="IdVisita" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Motivo" Type="varchar" MaxLength="60" Nullable="false" />
+          <Property Name="NombreVisitante" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FechaVisita" Type="date" />
+          <Property Name="HoraEntrada" Type="time" Precision="2" Nullable="false" />
+          <Property Name="HoraSalida" Type="time" Precision="2" Nullable="false" />
+          <Property Name="IdContacto" Type="int" />
+        </EntityType>
+        <Association Name="fk_ContactoVisita">
+          <End Role="Contactos" Type="Self.Contactos" Multiplicity="0..1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contactos">
+              <PropertyRef Name="IdContacto" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="IdContacto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamMatUIModelStoreContainer">
+          <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visita" EntityType="Self.Visita" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_ContactoVisita" Association="Self.fk_ContactoVisita">
+            <End Role="Contactos" EntitySet="Contactos" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamMatUIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contactos">
+          <Key>
+            <PropertyRef Name="IdContacto" />
+          </Key>
+          <Property Name="IdContacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Visita" Relationship="Self.fk_ContactoVisita" FromRole="Contactos" ToRole="Visita" />
+        </EntityType>
+        <EntityType Name="Visita">
+          <Key>
+            <PropertyRef Name="IdVisita" />
+          </Key>
+          <Property Name="IdVisita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Motivo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NombreVisitante" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaVisita" Type="DateTime" Precision="0" />
+          <Property Name="HoraEntrada" Type="Time" Nullable="false" Precision="2" />
+          <Property Name="HoraSalida" Type="Time" Nullable="false" Precision="2" />
+          <Property Name="IdContacto" Type="Int32" />
+          <NavigationProperty Name="Contactos" Relationship="Self.fk_ContactoVisita" FromRole="Visita" ToRole="Contactos" />
+        </EntityType>
+        <Association Name="fk_ContactoVisita">
+          <End Role="Contactos" Type="Self.Contactos" Multiplicity="0..1" />
+          <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contactos">
+              <PropertyRef Name="IdContacto" />
+            </Principal>
+            <Dependent Role="Visita">
+              <PropertyRef Name="IdContacto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamMatUIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contactos" EntityType="Self.Contactos" />
+          <EntitySet Name="Visita" EntityType="Self.Visita" />
+          <AssociationSet Name="fk_ContactoVisita" Association="Self.fk_ContactoVisita">
+            <End Role="Contactos" EntitySet="Contactos" />
+            <End Role="Visita" EntitySet="Visita" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamMatUIModelStoreContainer" CdmEntityContainer="ExamMatUIEntities">
+          <EntitySetMapping Name="Contactos">
+            <EntityTypeMapping TypeName="ExamMatUIModel.Contactos">
+              <MappingFragment StoreEntitySet="Contactos">
+                <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visita">
+            <EntityTypeMapping TypeName="ExamMatUIModel.Visita">
+              <MappingFragment StoreEntitySet="Visita">
+                <ScalarProperty Name="IdVisita" ColumnName="IdVisita" />
+                <ScalarProperty Name="Motivo" ColumnName="Motivo" />
+                <ScalarProperty Name="NombreVisitante" ColumnName="NombreVisitante" />
+                <ScalarProperty Name="FechaVisita" ColumnName="FechaVisita" />
+                <ScalarProperty Name="HoraEntrada" ColumnName="HoraEntrada" />
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
+                <ScalarProperty Name="IdContacto" ColumnName="IdContacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

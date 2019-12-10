@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExamMatUIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Contactos">
+    <Key>
+      <PropertyRef Name="IdContacto" />
+    </Key>
+    <Property Name="IdContacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ID" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaCreacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Visita" Relationship="Self.fk_ContactoVisita" FromRole="Contactos" ToRole="Visita" />
+  </EntityType>
+  <EntityType Name="Visita">
+    <Key>
+      <PropertyRef Name="IdVisita" />
+    </Key>
+    <Property Name="IdVisita" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Motivo" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="NombreVisitante" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaVisita" Type="DateTime" Precision="0" />
+    <Property Name="HoraEntrada" Type="Time" Nullable="false" Precision="2" />
+    <Property Name="HoraSalida" Type="Time" Nullable="false" Precision="2" />
+    <Property Name="IdContacto" Type="Int32" />
+    <NavigationProperty Name="Contactos" Relationship="Self.fk_ContactoVisita" FromRole="Visita" ToRole="Contactos" />
+  </EntityType>
+  <Association Name="fk_ContactoVisita">
+    <End Role="Contactos" Type="Self.Contactos" Multiplicity="0..1" />
+    <End Role="Visita" Type="Self.Visita" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contactos">
+        <PropertyRef Name="IdContacto" />
+      </Principal>
+      <Dependent Role="Visita">
+        <PropertyRef Name="IdContacto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExamMatUIEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Contactos" EntityType="Self.Contactos" />
+    <EntitySet Name="Visita" EntityType="Self.Visita" />
+    <AssociationSet Name="fk_ContactoVisita" Association="Self.fk_ContactoVisita">
+      <End Role="Contactos" EntitySet="Contactos" />
+      <End Role="Visita" EntitySet="Visita" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
